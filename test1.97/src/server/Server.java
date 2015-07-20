@@ -330,9 +330,19 @@ public class Server {
 
 			while(it.hasNext()){
 				out = (ObjectOutputStream) it.next();
-				synchronized(out){out.writeUnshared(serverObject);
-				out.reset();
+				/*for(ServerObject Messenger: serverObjects){
+					synchronized(out){
+						out.writeUnshared(Messenger);
+						out.reset();
+					}
+				}*/
+				synchronized(out){
+					out.writeUnshared(serverObject);
+					out.reset();
 				}
+				
+				
+				
 				
 			}
 
