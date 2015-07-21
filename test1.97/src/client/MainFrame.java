@@ -18,7 +18,6 @@ public class MainFrame {
 		//frame.setTitle("");
 		//frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
 		networkStartup.startUp(networkStartup,panel);  			//call the startUp method and send the newly made object to it
 		frame.setVisible(true);
 	}
