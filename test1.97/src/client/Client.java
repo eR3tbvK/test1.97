@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+
+
 public class Client {
 	//Make private variables, private means only methods in the class can access them
 	private JTextArea incoming;
@@ -14,7 +16,6 @@ public class Client {
 	private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private ServerObject myChat;
-    private ClientObject clientObject;
     private Login loginPage;
     private InGame inGame;
     private PlayerMob player;
@@ -29,15 +30,13 @@ public class Client {
 
 
 	public void startUp(Client netStart,JPanel panel){
-		//ApplicationContext factory = new ClassPathXmlApplicationContext("spring.xml");
-		
+	
 		networkStartup = netStart;
 		//loginPage = new Login(); 									//Make new object loginPage
 		loginPage = new Login();		//Its like new Login() but you tell the factory to do it
 		loginPage.setPanel(panel);
 		loginPage.setNetObject(netStart); 							//Send the ChatClient object to loginPage
-		myChat = new ServerObject();								//Make new object called clientObject
-		clientObject = new ClientObject();
+		myChat = new ServerObject();								//Make new object called myChat
 		player = new PlayerMob(netStart);
 		players = new ArrayList<PlayerMob>();						//Make an array list to hold all other players from server
 		//background = new Background();
@@ -58,20 +57,12 @@ public class Client {
 			outputStream = new ObjectOutputStream(sock.getOutputStream());
 			inputStream = new ObjectInputStream(sock.getInputStream());
 
-			setUpIncomingReader();
 			
+			Thread remote = new Thread(new IncomingReader());
+			remote.start();
 		}
 		catch(IOException ex){
 			ex.printStackTrace();
-		}
-	}
-	
-	public void setUpIncomingReader(){
-		try{
-		Thread remote = new Thread(new IncomingReader());
-		remote.start();
-		} catch(Exception e){
-			//do nothing
 		}
 	}
 
@@ -96,18 +87,18 @@ public class Client {
 			ex.printStackTrace();
 		}
 	}
-
+	
 	public void initializeUsernames() throws IOException{
-		outputStream.writeUnshared(clientObject);		//Sending the ChatObject to the server
+		outputStream.writeUnshared(myChat);		//Sending the ChatObject to the server
 		outputStream.flush();
 	}
-
+	
 	public void createNewUser() throws IOException{
-		clientObject.setUsername(username);
-		outputStream.writeUnshared(clientObject);		//Sending the ChatObject to the server
+		myChat.setUsername(username);
+		outputStream.writeUnshared(myChat);		//Sending the ChatObject to the server
 		outputStream.flush();
 	}
-
+	
 	public void startGame(JPanel panel){
 		panel.removeAll();
 		inGame.chat(panel);
@@ -117,8 +108,8 @@ public class Client {
 		incoming = in;
 		outgoing = out;
 		try{
-			clientObject.setMessage(username + " has joined!");	
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(username + " has joined!");	
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -131,8 +122,8 @@ public class Client {
 		incoming = in;
 
 		try{
-			clientObject.setMessage(username + ": " + outgoing.getText());			
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(username + ": " + outgoing.getText());			
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -145,10 +136,10 @@ public class Client {
 
 	public void keyPressedR(Boolean cross){
 		try{
-			clientObject.setR(cross);
+			myChat.setCross(cross);
 			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(null);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 
 		}
@@ -159,10 +150,10 @@ public class Client {
 	
 	public void keyReleasedR (Boolean cross){
 		try{
-			clientObject.setR(cross);
+			myChat.setCross(cross);
 			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(null);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 
 		}
@@ -170,35 +161,27 @@ public class Client {
 			ex.printStackTrace();
 		}
 	}
-
+	
 	public void keyPressed(Boolean vertMove,int yMove,int yCoordinate){
 		try{
-			if(yMove > 0){
-				clientObject.setDown(true);
-			}else if(yMove < 0){
-				clientObject.setUp(true);
-			}
-			
-			/*
-			clientObject.setYMove(yMove);
-			if(players.get(userIndex) != null) clientObject.setYCoordinate(players.get(userIndex).getYCoordinate());
-			if(players.get(userIndex) != null) clientObject.setXCoordinate(players.get(userIndex).getXCoordinate());
+			myChat.setYMove(yMove);
+			if(players.get(userIndex) != null) myChat.setYCoordinate(players.get(userIndex).getYCoordinate());
+			if(players.get(userIndex) != null) myChat.setXCoordinate(players.get(userIndex).getXCoordinate());
 			if(players.get(userIndex) != null && yMove > 0) {
-				clientObject.setFaceDown(true);
-				clientObject.setFaceRight(false);
-				clientObject.setFaceLeft(false);
-				clientObject.setFaceUp(false);
+				myChat.setFaceDown(true);
+				myChat.setFaceRight(false);
+				myChat.setFaceLeft(false);
+				myChat.setFaceUp(false);
 			}
 			if(players.get(userIndex) != null && yMove < 0) {
-				clientObject.setFaceUp(true);
-				clientObject.setFaceLeft(false);
-				clientObject.setFaceDown(false);
-				clientObject.setFaceRight(false);
+				myChat.setFaceUp(true);
+				myChat.setFaceLeft(false);
+				myChat.setFaceDown(false);
+				myChat.setFaceRight(false);
 			}
-			*/
 			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(null);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -208,32 +191,24 @@ public class Client {
 
 	public void keyPressed(int xMove,Boolean horMove,int xCoordinate){
 		try{
-			if(xMove > 0){
-				clientObject.setRight(true);
-			}else if(xMove < 0){
-				clientObject.setLeft(true);
-			}
-			
-			/*
-			clientObject.setXMove(xMove);
-			if(players.get(userIndex) != null) clientObject.setXCoordinate(players.get(userIndex).getXCoordinate());
-			if(players.get(userIndex) != null) clientObject.setYCoordinate(players.get(userIndex).getYCoordinate());
+			myChat.setXMove(xMove);
+			if(players.get(userIndex) != null) myChat.setXCoordinate(players.get(userIndex).getXCoordinate());
+			if(players.get(userIndex) != null) myChat.setYCoordinate(players.get(userIndex).getYCoordinate());
 			if(players.get(userIndex) != null && xMove < 0) {
-				clientObject.setFaceLeft(true);
-				clientObject.setFaceRight(false);
-				clientObject.setFaceDown(false);
-				clientObject.setFaceUp(false);
+				myChat.setFaceLeft(true);
+				myChat.setFaceRight(false);
+				myChat.setFaceDown(false);
+				myChat.setFaceUp(false);
 			}
 			if(players.get(userIndex) != null && xMove > 0) {
-				clientObject.setFaceRight(true);
-				clientObject.setFaceLeft(false);
-				clientObject.setFaceDown(false);
-				clientObject.setFaceUp(false);
+				myChat.setFaceRight(true);
+				myChat.setFaceLeft(false);
+				myChat.setFaceDown(false);
+				myChat.setFaceUp(false);
 			}
-			*/
 			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setMessage(null);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -243,21 +218,13 @@ public class Client {
 
 	public void keyReleased(Boolean vertMove, int yMove,int yCoordinate){	
 		try{
-			if(yMove == 0){
-				clientObject.setUp(false);
-				clientObject.setDown(false);
-			}
-			
-			/*
-			clientObject.setYMove(yMove);
-			userIndex = usernames.indexOf(clientObject.getUsername());
-			if(players.get(userIndex) != null) clientObject.setYCoordinate(players.get(userIndex).getYCoordinate());
-			if(players.get(userIndex) != null) clientObject.setXCoordinate(players.get(userIndex).getXCoordinate());
-			clientObject.setRefreshCoordinates(false);
-			*/
-			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setYMove(yMove);
+			userIndex = usernames.indexOf(myChat.getUsername());
+			if(players.get(userIndex) != null) myChat.setYCoordinate(players.get(userIndex).getYCoordinate());
+			if(players.get(userIndex) != null) myChat.setXCoordinate(players.get(userIndex).getXCoordinate());
+			myChat.setMessage(null);
+			myChat.setRefreshCoordinates(false);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -268,22 +235,13 @@ public class Client {
 	public void keyReleased(int xMove,Boolean horMove, int xCoordinate){
 
 		try{
-			if(xMove == 0){
-				clientObject.setRight(false);
-				clientObject.setLeft(false);
-			}
-			
-			/*
-			clientObject.setXMove(xMove);
-			userIndex = usernames.indexOf(clientObject.getUsername());
-			if(players.get(userIndex) != null) clientObject.setXCoordinate(players.get(userIndex).getXCoordinate());
-			if(players.get(userIndex) != null) clientObject.setYCoordinate(players.get(userIndex).getYCoordinate());
-			clientObject.setMessage(null);
-			clientObject.setRefreshCoordinates(false);
-			*/
-			
-			clientObject.setMessage(null);
-			outputStream.writeUnshared(clientObject);
+			myChat.setXMove(xMove);
+			userIndex = usernames.indexOf(myChat.getUsername());
+			if(players.get(userIndex) != null) myChat.setXCoordinate(players.get(userIndex).getXCoordinate());
+			if(players.get(userIndex) != null) myChat.setYCoordinate(players.get(userIndex).getYCoordinate());
+			myChat.setMessage(null);
+			myChat.setRefreshCoordinates(false);
+			outputStream.writeUnshared(myChat);
 			outputStream.flush();
 		}
 		catch(Exception ex){
@@ -307,6 +265,7 @@ public class Client {
 		//then we append message inside chat object to the text area called incoming
 
 
+		
 		public void run(){
 			int indexOfPlayer = 0;
 			Object objFromInStream = null;
@@ -314,7 +273,6 @@ public class Client {
 			try{
 				//synchronized is needed so that we do not try to make more than one socket connection at a time.
 				synchronized(inputStream){
-
 					while((objFromInStream=inputStream.readUnshared()) != null ) {
 						ServerObject serverObject = (ServerObject) objFromInStream;
 					if(!serverObject.getUsername().equals("undefined")){
@@ -362,18 +320,14 @@ public class Client {
 
 						//players.get(indexOfPlayer).updateCoordinates(serverObject);
 						players.get(indexOfPlayer).updateFace(serverObject);
-						players.get(indexOfPlayer).setClientServUsername(serverObject,clientObject);
+						players.get(indexOfPlayer).setClientServUsername(serverObject,myChat);
 						
 						inGame.setPlayers(players,indexOfPlayer);
-						inGame.drawPanel();
 						//System.out.println("\nat the end " + System.currentTimeMillis());
 					}
 				}
-
 				}
-				
 			}
-
 			catch(Exception ex) {
 				ex.printStackTrace();
 			}
@@ -384,7 +338,7 @@ public class Client {
 			int xInWorld = 0; 
 			if(players.size() > 1 && thisUserIndex() >= 0){
 				//xInWorld = players.get(0).getXCoordinate() - players.get(indexOfPlayer).getXCoordinate();
-				xInWorld = players.get(thisUserIndex()).getXCoordinate() - 400;
+				xInWorld = players.get(thisUserIndex()).getXCoordinate() - 300;
 				System.out.println("----getXInWorld thisUserIndex()-----\n thisUserIndex(): " + thisUserIndex() + players.get(thisUserIndex()).getXCoordinate() + "  " + players.get(indexOfPlayer).getXCoordinate() + "\n" + xInWorld);
 			}
 			return xInWorld;
@@ -393,20 +347,20 @@ public class Client {
 		public int getYInWorld(int indexOfPlayer){
 			int yInWorld = 0; 
 			if(players.size() > 1  && thisUserIndex() >= 0){
-				yInWorld = players.get(thisUserIndex()).getYCoordinate() - 200;
+				yInWorld = players.get(thisUserIndex()).getYCoordinate() - 150;
 				//yInWorld = players.get(0).getYCoordinate() - players.get(indexOfPlayer).getYCoordinate();
 			}
 			return yInWorld;
 		}
 
 		public boolean thisUser(int indexOfPlayer){
-			return clientObject.getUsername().equals(usernames.get(indexOfPlayer));
+			return myChat.getUsername().equals(usernames.get(indexOfPlayer));
 		}
 		
 		public int thisUserIndex(){
 			int index = 0;
 			for(String username : usernames){
-				if(clientObject.getUsername().equals(username)){
+				if(myChat.getUsername().equals(username)){
 					return index;
 				}
 				index ++;

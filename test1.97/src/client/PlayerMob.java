@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -45,7 +46,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	private ServerObject info;
 	private boolean user;
 	private int speed = 1;
-	private ClientObject clientObject;
+	private ServerObject clientObject;
 
 	public PlayerMob(Client netStartup) {
 		networkStartup = netStartup;
@@ -256,7 +257,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	}
 	
 	
-	public void setClientServUsername(ServerObject servObj, ClientObject clientObject){
+	public void setClientServUsername(ServerObject servObj, ServerObject clientObject){
 		if(!servObj.getArrayList().isEmpty()){
 			this.clientObject = clientObject;
 			clientUsername = clientObject.getUsername();

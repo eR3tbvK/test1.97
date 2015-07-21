@@ -7,7 +7,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JLayeredPane;
 
-public class ZoomLayeredPane extends JLayeredPane {
+public class ZoomLayeredPane extends JLayeredPane{
 	public void paintComponent(Graphics g){
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double height = screenSize.getHeight();
@@ -15,5 +15,6 @@ public class ZoomLayeredPane extends JLayeredPane {
 	
 		Graphics2D g2 = (Graphics2D) g;
 		g2.scale(width/1024, height/726);
+		
 	}
 }

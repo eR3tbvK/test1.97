@@ -14,7 +14,7 @@ public class InGame{
 	private Client networkStartup;
 	private PlayerMob player;
 	public Background background;
-	private JLayeredPane layeredPane;
+	private ZoomLayeredPane layeredPane;
 	private JLayeredPane keyListenerLayer;
 	private ArrayList<PlayerMob> players;
 	private int playerIndex;
@@ -37,6 +37,7 @@ public class InGame{
 		layeredPane = new ZoomLayeredPane();
 		background = new Background();
 		layeredPane.add(background,99);
+		
 		//world = new World();
 	}
 	
@@ -78,7 +79,7 @@ public class InGame{
             	networkStartup.InGameChatSendButtonListener(userInterface.getOutgoing(),userInterface.getIncoming());
         }});
 		
-		//startDrawingPanelThread();
+		startDrawingPanelThread();
 
 	}
 	
@@ -119,65 +120,12 @@ public class InGame{
 		this.networkStartup = networkStartup;
 	}
 	
-	public void drawPanel(){
-		try{
-			//System.out.println("right before the while loop of the thread");
-			//layeredPane.add(background,99);
-				
-
-				
-				panel.remove(layeredPane);
-				Iterator<PlayerMob> allPlayers = players.iterator();
-				PlayerMob aPlayer = null;
-				while(allPlayers.hasNext()){
-					aPlayer = (PlayerMob) allPlayers.next();
-					//System.out.println("INTHELOOP:info.getUsername =" + info.getUsername() + " myChat.getUsername =" + myChat.getUsername());
-					aPlayer.move();
-				}
-				background.move();
-				
-				panel.add(BorderLayout.CENTER,layeredPane);
-				panel.validate();
-				panel.repaint();
-				//try{
-				collisionDetection();
-				/*}catch(IndexOutOfBoundsException ex){
-					System.err.println("for loop index catch");
-					continue;
-				}*/
-			
-		}catch (NullPointerException ed){
-			System.err.println("for loop null catch");
-			//startDrawingPanelThread();
-		}
-		catch(Exception ev){
-			System.err.println("for loop catch");
-			ev.printStackTrace();	
-		}
-	}
-	
-	public void collisionDetection() throws IndexOutOfBoundsException{
-		
-		for(int i=0;  i< players.size(); i++){
-			if(players.get(playerIndex).getCross()){
-				if (playerIndex != i && players.get(playerIndex).getBounds().intersects(players.get(i).getBounds())){
-					//System.out.println("A COLLISION HAPPENED with player " + i);
-					players.get(i).setKnockedOut(true);
-				}
-			}
-		}
-		
-	}
-	
-	
 	public class SendButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			networkStartup.InGameChatSendButtonListener(outgoing,incoming);
 		}
 	}
 
-	
-	//ye old drawing panel thread
 	public class DrawingPanel implements Runnable{
 
 		public void run(){
@@ -195,7 +143,7 @@ public class InGame{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
+					
 					panel.remove(layeredPane);
 					Iterator<PlayerMob> allPlayers = players.iterator();
 					PlayerMob aPlayer = null;
@@ -215,7 +163,9 @@ public class InGame{
 						System.err.println("for loop index catch");
 						continue;
 					}*/
-										
+					
+					//delay();
+					
 				}
 			}catch (NullPointerException ed){
 				System.err.println("for loop null catch");
@@ -239,6 +189,31 @@ public class InGame{
 			}
 			
 		}
+		
+		public void delay(){
+			
+			URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
+			waitTime = targetTime - URDTimeMillis;
+			System.out.println(waitTime);
+			
+			try {
+				
+				//System.out.println("before Sleep");
+				Thread.sleep(waitTime);
+				//System.out.println("after sleep");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			totalTime += System.nanoTime() - startTime;
+			frameCount++;
+			if(frameCount == maxFrameCount){
+				averageFPS = 1000.0 /((totalTime / frameCount) / 1000000);
+				frameCount = 0;
+				totalTime = 0;
+			}
+		}
+		
 		
 	}
 }
