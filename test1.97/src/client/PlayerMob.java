@@ -47,6 +47,10 @@ public class PlayerMob extends JPanel implements Serializable {
 	private boolean user;
 	private int speed = 1;
 	private ServerObject clientObject;
+	private int readXMove;
+	private int readYMove;
+	private int worldXMove;
+	private int worldYMove;
 
 	public PlayerMob(Client netStartup) {
 		networkStartup = netStartup;
@@ -212,8 +216,8 @@ public class PlayerMob extends JPanel implements Serializable {
 			this.username = servObj.getUsername();
 			//Makes it so only a user with the specific username can move the circle
 			if(servObj.getUsername().equals(servObj.getArrayList().get(index))){  
-				realXMove = servObj.getXMove();
-				realYMove = servObj.getYMove();
+				readXMove = servObj.getXMove();
+				readYMove = servObj.getYMove();
 			}
 		}
 
@@ -224,8 +228,8 @@ public class PlayerMob extends JPanel implements Serializable {
 			
 			//Makes it so only a user with the specific username can move the circle
 			if(servObj.getUsername().equals(servObj.getArrayList().get(index))){ 
-				realXMove = -servObj.getXMove();
-				realYMove = -servObj.getYMove();
+				worldXMove = -servObj.getXMove();
+				worldYMove = -servObj.getYMove();
 			}
 		}
 	}
@@ -266,6 +270,8 @@ public class PlayerMob extends JPanel implements Serializable {
 	}
 
 	public void move(){
+		realXMove = readXMove + worldXMove;
+		realYMove = readYMove + worldYMove;
 		xCoordinate += realXMove;
 		yCoordinate += realYMove;
 		
