@@ -21,6 +21,9 @@ public class PlayerMob extends JPanel implements Serializable {
 	private Boolean cross = false;
 	private Boolean knockedOut = false;
 
+	private int health = 100;
+	private int damage = 1;
+
 	private int xMove = 0;
 	private int yMove = 0;
 	private int realXMove = 0;
@@ -40,6 +43,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	private BufferedImage lCross;
 	private BufferedImage uCross;
 	private BufferedImage dCross;
+	
 	private String username = "NEW";
 	public String clientUsername;
 	private int index;
@@ -72,6 +76,17 @@ public class PlayerMob extends JPanel implements Serializable {
         this.setBounds(400, 200, 150, 150);
 	}
 
+	public void setHealth(int health){
+		this.health = health;
+	}
+	public void setDamage(int damage){
+		this.damage = damage;
+	}
+	
+	public void doDamage(int damage){
+		health -= damage;
+	}
+	
 	public void setXCoordinate(int xCoordinate){
 		this.xCoordinate = xCoordinate;
 	}
@@ -288,12 +303,12 @@ public class PlayerMob extends JPanel implements Serializable {
 		//g.fillRect(0,0,115,150);
 		//this.setBounds(xCoordinate,yCoordinate,10,10);
 		
-		if(knockedOut){
+		if(health <= 0){
 			//System.out.println("You just got knocked out!!!");
 			this.setVisible(false);
 			//xCoordinate = -50;
 			//yCoordinate = 200;
-			knockedOut = false;
+			knockedOut = true;
 		}
 		else{
 			if(faceRight){
@@ -354,13 +369,13 @@ public class PlayerMob extends JPanel implements Serializable {
 				}
 				
 				
-				System.out.println(xCoordinate + "---" + yCoordinate);
+				//System.out.println(xCoordinate + "---" + yCoordinate);
 			}
 			
 
 		}
 		
-		g.drawString(username,134/3 - 2*username.length(), 10);
+		g.drawString(username + " HP:" + health,134/3 - 2*username.length(), 10);
 		
 	}
 	

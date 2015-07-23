@@ -128,6 +128,8 @@ public class InGame{
 
 	public class DrawingPanel implements Runnable{
 
+		private boolean thisCross;
+
 		public void run(){
 			try{
 				//System.out.println("right before the while loop of the thread");
@@ -183,7 +185,8 @@ public class InGame{
 				if(players.get(playerIndex).getCross()){
 					if (playerIndex != i && players.get(playerIndex).getBounds().intersects(players.get(i).getBounds())){
 						//System.out.println("A COLLISION HAPPENED with player " + i);
-						players.get(i).setKnockedOut(true);
+						//players.get(i).setKnockedOut(true);
+						players.get(i).doDamage(1);
 					}
 				}
 			}

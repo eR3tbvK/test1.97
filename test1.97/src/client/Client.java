@@ -29,6 +29,7 @@ public class Client {
     private int usersIn = 0;
 
 
+    
 	public void startUp(Client netStart,JPanel panel){
 	
 		networkStartup = netStart;
@@ -77,7 +78,7 @@ public class Client {
 
 				if(!duplicateUser){
 					createNewUser();
-					startGame(panel);			
+					startGame(panel);		
 				} else {
 					loginPage.duplicateUserMsg(username);
 				}
@@ -324,8 +325,8 @@ public class Client {
 			int xInWorld = 0; 
 			if(players.size() > 1 && thisUserIndex() >= 0){
 				//xInWorld = players.get(0).getXCoordinate() - players.get(indexOfPlayer).getXCoordinate();
-				xInWorld = players.get(thisUserIndex()).getXCoordinate() - 300;
-				System.out.println("----getXInWorld thisUserIndex()-----\n thisUserIndex(): " + thisUserIndex() + players.get(thisUserIndex()).getXCoordinate() + "  " + players.get(indexOfPlayer).getXCoordinate() + "\n" + xInWorld);
+				xInWorld = players.get(thisUserIndex()).getXCoordinate() - 400;
+				//System.out.println("----getXInWorld thisUserIndex()-----\n thisUserIndex(): " + thisUserIndex() + players.get(thisUserIndex()).getXCoordinate() + "  " + players.get(indexOfPlayer).getXCoordinate() + "\n" + xInWorld);
 			}
 			return xInWorld;
 		}
@@ -333,7 +334,7 @@ public class Client {
 		public int getYInWorld(int indexOfPlayer){
 			int yInWorld = 0; 
 			if(players.size() > 1  && thisUserIndex() >= 0){
-				yInWorld = players.get(thisUserIndex()).getYCoordinate() - 150;
+				yInWorld = players.get(thisUserIndex()).getYCoordinate() - 200;
 				//yInWorld = players.get(0).getYCoordinate() - players.get(indexOfPlayer).getYCoordinate();
 			}
 			return yInWorld;

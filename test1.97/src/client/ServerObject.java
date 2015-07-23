@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class ServerObject implements Serializable {
 	private static final long serialVersionUID = 3;
 
-	private int xCoordinate = 300;
-	private int yCoordinate = 150;
+	private int xCoordinate = 400;
+	private int yCoordinate = 200;
 	private int xMove;
 	private int yMove;
 
