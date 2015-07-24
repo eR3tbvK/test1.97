@@ -91,11 +91,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	}
 	
 	public void doDamage(){
-		if(block){
-			
-		}else{
 			health -= damage;
-		}
 	}
 	
 	public void setXCoordinate(int xCoordinate){
@@ -130,6 +126,9 @@ public class PlayerMob extends JPanel implements Serializable {
 	
 	public Boolean getCross(){
 		return cross;
+	}
+	public Boolean getBlock(){
+		return block;
 	}
 
 
