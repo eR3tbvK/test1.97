@@ -186,10 +186,7 @@ public class InGame{
 					if (playerIndex != i && players.get(playerIndex).getBounds().intersects(players.get(i).getBounds())){
 						//System.out.println("A COLLISION HAPPENED with player " + i);
 						//players.get(i).setKnockedOut(true);
-						if(players.get(i).getBlock()){}
-						else{
 							players.get(i).doDamage();
-						}
 					}
 				}
 			}
