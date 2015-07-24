@@ -16,6 +16,7 @@ public class ServerObject implements Serializable {
 	private Boolean faceLeft = false;
 	private Boolean faceRight = false;
 	private Boolean cross = false;
+	private Boolean block = false;
 
 	private ArrayList<String> usernames;
 	private String message;
@@ -98,6 +99,13 @@ public class ServerObject implements Serializable {
 	}
 	public Boolean getCross(){
 		return cross;
+	}
+	
+	public void setBlock(Boolean block){
+		this.block = block;
+	}
+	public Boolean getBlock(){
+		return block;
 	}
 	
 	public void setFaceRight(Boolean faceRight){

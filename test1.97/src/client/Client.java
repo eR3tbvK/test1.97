@@ -151,7 +151,7 @@ public class Client {
 	
 	public void keyPressedB(Boolean block){
 		try{
-			myChat.setCross(block);
+			myChat.setBlock(block);
 			
 			myChat.setMessage(null);
 			outputStream.writeUnshared(myChat);

@@ -92,7 +92,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	
 	public void doDamage(){
 		if(block){
-			health -= 0;
+			
 		}else{
 			health -= damage;
 		}
@@ -290,6 +290,7 @@ public class PlayerMob extends JPanel implements Serializable {
 		faceLeft = servObj.getFaceLeft();
 		faceRight = servObj.getFaceRight();
 		cross = servObj.getCross();
+		block = servObj.getBlock();
 
 	}
 	
