@@ -19,10 +19,12 @@ public class PlayerMob extends JPanel implements Serializable {
 	private Boolean faceLeft = true;
 	private Boolean faceRight = false;
 	private Boolean cross = false;
+	private Boolean block = false;
 	private Boolean knockedOut = false;
 
 	private int health = 100;
-	private int damage = 1;
+	private int damage = 3;
+	
 
 	private int xMove = 0;
 	private int yMove = 0;
@@ -43,7 +45,7 @@ public class PlayerMob extends JPanel implements Serializable {
 	private BufferedImage lCross;
 	private BufferedImage uCross;
 	private BufferedImage dCross;
-	
+
 	private String username = "NEW";
 	public String clientUsername;
 	private int index;
@@ -76,15 +78,24 @@ public class PlayerMob extends JPanel implements Serializable {
         this.setBounds(400, 200, 150, 150);
 	}
 
+
+	
 	public void setHealth(int health){
 		this.health = health;
 	}
 	public void setDamage(int damage){
 		this.damage = damage;
 	}
+	public int getDamage(){
+		return damage;
+	}
 	
-	public void doDamage(int damage){
-		health -= damage;
+	public void doDamage(){
+		if(block){
+			health -= 0;
+		}else{
+			health -= damage;
+		}
 	}
 	
 	public void setXCoordinate(int xCoordinate){
@@ -108,6 +119,13 @@ public class PlayerMob extends JPanel implements Serializable {
 	}
 	public void keyReleasedR(){
 		networkStartup.keyPressedR(false);
+	}
+	
+	public void keyPressedB(){
+		networkStartup.keyPressedB(true);
+	}
+	public void keyReleasedB(){
+		networkStartup.keyPressedB(false);
 	}
 	
 	public Boolean getCross(){

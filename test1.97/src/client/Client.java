@@ -149,6 +149,20 @@ public class Client {
 		}
 	}
 	
+	public void keyPressedB(Boolean block){
+		try{
+			myChat.setCross(block);
+			
+			myChat.setMessage(null);
+			outputStream.writeUnshared(myChat);
+			outputStream.flush();
+
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public void keyPressed(Boolean vertMove,int yMove,int yCoordinate){
 		try{
 			myChat.setYMove(yMove);

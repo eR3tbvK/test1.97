@@ -24,6 +24,7 @@ public class AddKeyListener extends JPanel {
 				if(e.getKeyCode() == KeyEvent.VK_UP)	player.keyReleasedUp();
 				if(e.getKeyCode() == KeyEvent.VK_DOWN)	player.keyReleasedDown();
 				if(e.getKeyCode() == KeyEvent.VK_R)		player.keyReleasedR();
+				if(e.getKeyCode() == KeyEvent.VK_B)		player.keyReleasedB();
 			}
 
 			@Override
@@ -34,6 +35,7 @@ public class AddKeyListener extends JPanel {
 				if(e.getKeyCode() == KeyEvent.VK_RIGHT)	player.keyPressedRight();
 				if(e.getKeyCode() == KeyEvent.VK_ESCAPE)player.keyPressedEscape();
 				if(e.getKeyCode() == KeyEvent.VK_R)		player.keyPressedR();
+				if(e.getKeyCode() == KeyEvent.VK_B)		player.keyReleasedB();
 			}
 		});
 		setFocusable(true);

@@ -177,8 +177,11 @@ public class Server {
 			thisGuy = clientOutputStreams.get(thisInt);
 		
 			while(clientObject.hasNext()){
-				synchronized(thisGuy){	thisGuy.writeUnshared(clientObject.next());}
-				thisGuy.reset();
+				synchronized(thisGuy){	
+					thisGuy.writeUnshared(clientObject.next());
+					thisGuy.reset();
+				}
+				
 			}	
 		}
 		
@@ -189,8 +192,11 @@ public class Server {
 
 			while(it.hasNext()){
 				out = (ObjectOutputStream) it.next();
-				synchronized(out){out.writeUnshared(one);}
-				out.reset();
+				synchronized(out){
+					out.writeUnshared(one);
+					out.reset();
+					}
+				
 			}
 
 		}
