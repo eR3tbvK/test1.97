@@ -54,7 +54,7 @@ public class Client {
 		//create a socket connection to the server on port 5000, and outputstream, inputstream 
 		//and have a thread call the IncomingReader method
 		try {
-			sock = new Socket("localhost",5000);
+			sock = new Socket("10.16.10.18",5000);
 			outputStream = new ObjectOutputStream(sock.getOutputStream());
 			inputStream = new ObjectInputStream(sock.getInputStream());
 

@@ -140,7 +140,7 @@ public class InGame{
 					startTime = System.nanoTime();
 					try {
 						//System.out.println("before Sleep");
-						Thread.sleep(30);
+						Thread.sleep(100);
 						//System.out.println("after sleep");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
