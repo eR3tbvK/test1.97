@@ -141,6 +141,7 @@ public class ServerObject implements Serializable {
 	
 	
 	
+	
 	///EXTRA METHODS TO TEST FOR LAGGGGG
 	public void setXMove1(int xMove){
 		this.xMove = xMove;
